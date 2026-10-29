@@ -1,0 +1,10 @@
+ESCALA DE NOVEMBRO 2026 - MAPA INTERATIVO
+
+COMO ABRIR
+1. Extraia o zip (no iPhone: toque no arquivo .zip em Arquivos).
+2. Abra o arquivo index.html com um NAVEGADOR (Safari, Chrome) ou com o app Documents (Readdle).
+   Nao use a pre-visualizacao do WhatsApp/Arquivos: ela nao executa a pagina e mostra tudo vazio.
+3. Funciona offline. Somente os links do Flightradar24 precisam de internet.
+
+DICA
+Aba "Story": toque em "Modo print", tire um print da tela e recorte para postar.
