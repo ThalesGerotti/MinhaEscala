@@ -174,7 +174,7 @@ $('#cal').innerHTML=h;$('#cal').querySelectorAll('.day').forEach(b=>b.onclick=()
 function map(){const ls=dl(sel),m=M[sel];
 let s=`<svg class="map" viewBox="0 0 400 400" role="img" aria-label="Mapa do Brasil com o trajeto do dia"><path class="land" d="M${BR.map(p=>xy(...p).map(v=>v.toFixed(1)).join(' ')).join('L')}Z"/>`;
 const seen={};L.forEach(l=>{const k=l.f+l.t;if(!seen[k]){seen[k]=1;s+=`<path class="bg" d="${curve(l.f,l.t)}"/>`}});
-ls.forEach((l,i)=>{const dim=hl>=0&&hl!==i?' dim':'';s+=`<path id="r${i}" class="rt${l.r==='D'?' dh':''}${dim}" d="${curve(l.f,l.t)}"/><path class="hit" data-i="${i}" d="${curve(l.f,l.t)}"/>`});
+ls.forEach((l,i)=>{const dim=hl>=0&&hl!==i?' dim':'';s+=`<path id="r${i}" class="rt${l.r==='D'?' dh':''}${dim}" d="${curve(l.f,l.t)}"/><path class="hit" data-i="${i}" d="${curve(l.f,l.t)}"/><polygon class="pl${dim}" points="-6,-4 7,0 -6,4"><animateMotion dur="3.2s" begin="${(i*.7).toFixed(1)}s" repeatCount="indefinite" rotate="auto"><mpath href="#r${i}"/></animateMotion></polygon>`});
 const used=new Set();ls.forEach(l=>{used.add(l.f);used.add(l.t)});
 const loc=m[2]==='AIR'?null:m[2];if(loc)used.add(loc);
 Object.keys(A).forEach(c=>{const[x,y]=P(c),u=used.has(c);s+=`<circle class="${u?'ap':'apx'}" cx="${x}" cy="${y}" r="${u?4.5:2.5}"><title>${A[c][0]}</title></circle><circle class="apc" data-c="${c}" cx="${x}" cy="${y}" r="9" fill="transparent"/>`;
@@ -208,8 +208,8 @@ else if(athome)L2.push('🏠 Em casa agora (base VCP)');
 else{const hm=a.find((l,i)=>l.t==='VCP'&&l.e>n&&(!a[i+1]||a[i+1].f!=='VCP'||a[i+1].s-l.e>288e5));if(hm){const g=hm.e-n;L2.push(`🏠 Volta pra base: dia ${dd(hm)} às ${hm.arr} · em ${g>864e5?Math.floor(g/864e5)+' dia(s)':fmt(g)}`)}}
 const fo=Object.keys(M).map(Number).find(d=>M[d][0]==='o'&&Date.UTC(2026,10,d,3)+864e5>n);
 if(fo){const s0=Date.UTC(2026,10,fo,3);L2.push(n>=s0?'🟢 Hoje é folga!':`🟢 Próxima folga: dia ${pad(fo)} · em ${Math.ceil((s0-n)/864e5)} dia(s)`)}
-$('#now').innerHTML=h+`<div class='info' style='margin:8px 0 0'>${L2.join('<br>')}</div><a id='pz' class='pz' href='#' target='_blank' rel='noopener noreferrer'>✅ Avisar que pousei</a>`;
-const pz=$('#pz');pz.href=wa();pz.onclick=()=>{pz.href=wa()}}
+$('#now').innerHTML=h+`<div class='info' style='margin:8px 0 0'>${L2.join('<br>')}</div>`;
+}
 function stats(){const fl=L.filter(l=>l.r!=='D'),tot=fl.reduce((s,l)=>s+l.e-l.s,0);
 const away=Object.values(M).filter(m=>m[2]!=='VCP'&&m[2]!=='AIR').length,off=Object.values(M).filter(m=>m[0]==='o').length;
 $('#st').innerHTML=`<div><b>${fl.length}</b><span>voos como tripulante</span></div><div><b>${fmt(tot)}</b><span>horas de voo</span></div><div><b>${off}</b><span>dias de folga</span></div><div><b>${away}</b><span>noites fora de casa</span></div>`}
@@ -231,7 +231,7 @@ m+='</g>';
 ap.forEach(c=>{const[x,y]=P(c),o=OFF[c]||[7,3,'start'];m+=`<circle cx='${x}' cy='${y}' r='3.2' fill='#fff' style='filter:drop-shadow(0 0 3px #fff)'/><text class='sl' x='${x+o[0]}' y='${y+o[1]}' text-anchor='${o[2]}'>${c}</text>`});
 m+='</svg>';
 const nf=n=>Math.round(n).toLocaleString('pt-BR');
-$('#story').innerHTML=`<div class='sc'><div class='si'><div class='k'>NOVEMBRO 2026</div><div class='h'>Meu mês nos céus ✈️</div>${m}<div class='g'><div><b>${fl.length}</b><span>voos</span></div><div><b>${fmt(tot)}</b><span>horas de voo</span></div><div><b>${nf(km)}</b><span>km percorridos</span></div><div><b>${ap.size}</b><span>aeroportos</span></div></div><div class='x'>🛣️ Rota mais voada: ${top[0]} (${top[1]}×)<br>🕐 Maior trecho: ${lg.f} → ${lg.t} · ${fmt(lg.e-lg.s)}<br>🌍 ${(km/40075).toFixed(1).replace('.',',')} volta ao mundo · 🏨 ${away} noites fora</div></div></div><div style='text-align:center'><button class='chip' id='pb'>📸 Modo print</button></div><div class='info hint' style='text-align:center'>Modo print esconde o resto da página. Tire um print da tela e toque no story para sair.</div>`;
+$('#story').innerHTML=`<div class='sc'><div class='si'><div class='k'>NOVEMBRO 2026</div><div class='h'>Meu mês nos céus ✈️</div>${m}<div class='g'><div><b>${fl.length}</b><span>voos</span></div><div><b>${fmt(tot)}</b><span>horas de voo</span></div><div><b>${nf(km)}</b><span>km percorridos</span></div><div><b>${ap.size}</b><span>aeroportos</span></div></div><div class='x'>🛣️ Rota mais voada: ${top[0]} (${top[1]}×)<br>🕐 Maior trecho: ${lg.f} → ${lg.t} · ${fmt(lg.e-lg.s)}<br>🌍 ${(km/40075).toFixed(1).replace('.',',')} volta ao mundo · 🏨 ${away} noites fora</div></div></div><div style='text-align:center'><button class='chip' id='pb'>📸 Modo print</button></div><div class='info hint' style='text-align:center'>Modo print esconde o resto da página. Tire um print da tela e recorte para postar.</div>`;
 const st0=$('#story'),mw=document.createElement('div');mw.id='mw';while(st0.firstChild)mw.appendChild(st0.firstChild);st0.appendChild(mw);
 const WK=[[1,7],[8,14],[15,21],[22,28],[29,30]],K=1000/290;
 const rr=(c,x,y,w,h,r)=>{c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()};
